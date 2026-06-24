@@ -68,6 +68,7 @@
 
 | Projeto | Descrição | Branch |
 |--------|-----------|--------|
+| Projeto | Landing page para venda de kit de-xicaras-personalizadas - HTML, Tailwindcss, CSS, JS | [`Ver Projeto`](https://github.com/mauriciocampos1234/Landing-page-para-venda-de-kit-de-x-caras-personalizadas) |
 | Projeto | Mapeador de Consumo de Cigarros - HTML, Tailwindcss, CSS, JS e Firebase Firestore  | [`Ver Projeto`](https://github.com/mauriciocampos1234/Mapeamento-de-cigarros) |
 | Projeto | Calculadora simples com REACT - REACT, HTML, CSS e JS  | [`Ver Projeto`](https://github.com/mauriciocampos1234/DIO-BOOT-CAMP/tree/trilha-react-desafio01-calculadora) |
 | Projeto | Projeto simples de estudo de criação de componentes aninhados - REACT + TS + VITE | [`Ver Projeto`](https://github.com/mauriciocampos1234/DIO-BOOT-CAMP/tree/my-app-react-ts) |
