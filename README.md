@@ -7,6 +7,76 @@
 > **AWS. |**
 > **AZURE.**
 
+## Planejamento MVP - Sistema de Gestão para Oficina Mecânica (99Freelas)
+
+### 1) Escopo da versão 1 (MVP)
+
+**Entra no MVP**
+- Login administrativo simples (acesso interno da oficina)
+- Cadastro de clientes
+- Cadastro de veículos vinculados ao cliente
+- Abertura e edição de Ordem de Serviço (OS)
+- Itens de orçamento (serviços e peças)
+- Controle de status da OS: `aberto`, `em andamento`, `aguardando aprovação`, `aprovado`, `concluído`, `cancelado`
+- Geração de orçamento em PDF
+- Envio do PDF via WhatsApp
+- Painel com visão geral das OS por status
+
+**Fica para depois**
+- Multiusuário com permissões avançadas
+- Controle de estoque completo
+- Integrações financeiras/ERP
+- App mobile nativo
+- Relatórios avançados com BI
+
+### 2) Entidades principais
+
+- **Cliente**: id, nome, telefoneWhatsApp, email, tipoDocumento (`CPF`/`CNPJ`), numeroDocumento, createdAt
+- **Veículo**: id, clienteId, placa, marca, modelo, ano, cor, quilometragem
+- **OrdemServico**: id, clienteId, veiculoId, numeroOS, status, problemaRelatado, observacoesInternas, valorTotal, createdAt, updatedAt
+- **ItemOrcamento**: id, ordemServicoId, tipo (`serviço`/`peça`), descricao, quantidade, valorUnitario, valorTotal (calculado por item)
+- **AprovacaoOrcamento**: id, ordemServicoId, canal (`whatsapp`), status (`pendente`/`aprovado`/`rejeitado`), dataEnvio, dataRetorno
+
+#### Regras de negócio importantes
+- `valorTotal` da OS deve ser recalculado automaticamente sempre que os itens mudarem enquanto o status estiver em `aberto`.
+- Se a OS estiver em `em andamento` ou `aguardando aprovação`, mudanças de itens devem exigir ação explícita de "recalcular orçamento" antes do novo envio ao cliente.
+- Ao alterar o status para `aprovado`, o `valorTotal` deve ser congelado como snapshot do orçamento aceito pelo cliente.
+
+### 3) Fluxo ponta a ponta
+
+1. Cadastrar cliente e veículo.
+2. Criar OS com problema relatado.
+3. Adicionar itens de orçamento (serviços e peças).
+4. Calcular total e alterar status para `aguardando aprovação`.
+5. Gerar PDF do orçamento.
+6. Enviar orçamento via WhatsApp para o cliente.
+7. Registrar retorno de aprovação/reprovação.
+8. Se aprovado, mover para `em andamento` e depois `concluído`.
+9. Exibir tudo no painel de controle e relatórios básicos.
+
+### 4) Stack e integrações sugeridas
+
+| Camada | Tecnologia | Motivo |
+|---|---|---|
+| Front-end | React + Vite + TypeScript | Produtividade e manutenção simples |
+| Back-end | ASP.NET Core Web API (.NET 8/9) | Alinhado ao foco atual da trilha |
+| Banco de dados | MySQL | Familiaridade e boa adoção em sistemas CRUD |
+| PDF | QuestPDF ou iText7 | Geração estruturada de orçamento |
+| WhatsApp | API oficial Meta (Cloud API) ou provedor (ex.: Z-API/Twilio) | Envio automatizado com rastreabilidade |
+| Autenticação | JWT | Controle de sessão para painel administrativo |
+
+> [!WARNING]
+> **Licenciamento PDF (atenção):** bibliotecas de PDF podem ter termos comerciais e de distribuição diferentes por versão.
+> **Antes de decidir em produção, confirme sempre os termos atuais na documentação oficial (QuestPDF e iText).**
+
+### 5) Planejamento em sprints curtas
+
+- **Sprint 1:** estrutura base, autenticação e CRUD de clientes/veículos
+- **Sprint 2:** CRUD de OS + itens + regras de status
+- **Sprint 3:** geração de PDF do orçamento
+- **Sprint 4:** integração WhatsApp + registro de aprovação
+- **Sprint 5:** dashboard, notificações e relatórios básicos
+
 > [!TIP]
 > **Conhecimentos em C# (.NET, Versão 9). Python versão 3+ |**
 > **Linguagem SQL [DDL, DCL, DML, TCL, DQL]. |**
@@ -86,6 +156,3 @@
 
 # Meu site 
 🔗 💻 [`meu site pessoal`](https://site-mauricio-campos.vercel.app/)
-
-
-
